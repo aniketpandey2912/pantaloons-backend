@@ -6,7 +6,7 @@ const { connection } = require("./config/db");
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("PANTALOONS HOME PAGE");
+  res.send("WELCOME PANTALOONS HOME PAGE");
 });
 
 app.listen(process.env.PORT, async () => {
