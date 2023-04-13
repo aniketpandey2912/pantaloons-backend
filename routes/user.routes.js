@@ -2,6 +2,7 @@ const express = require("express");
 const { UserModel } = require("../models/users.model");
 const userRouter = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 userRouter.post("/signup", async (req, res) => {
   let payload = req.body;
@@ -24,6 +25,27 @@ userRouter.post("/signup", async (req, res) => {
     }
   } catch (err) {
     res.send({ status: false, mssg: "Signup failed", err: err.message });
+  }
+});
+
+userRouter.post("/login", async (req, res) => {
+  let payload = req.body;
+  let { email, password } = payload;
+
+  try {
+    let users = await UserModel.find({ email });
+    if (users.length > 0) {
+      bcrypt.compare(password, users[0].password, async (err, result) => {
+        if (result) {
+          let token = jwt.sign({ userID: users[0]._id }, "pantaloons");
+          res.send({ status: true, mssg: "Login successfull", token });
+        }
+      });
+    } else {
+      res.send({ status: false, mssg: "Wrong Credentials" });
+    }
+  } catch (err) {
+    res.send({ status: false, mssg: "Wrong Credentials", err: err.message });
   }
 });
 
