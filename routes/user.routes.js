@@ -59,6 +59,21 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
+userRouter.patch("/edit", async (req, res) => {
+  const { userID: ID, ...restUpdates } = req.body;
+
+  try {
+    await UserModel.findByIdAndUpdate({ _id: ID }, restUpdates);
+    res.send({ status: true, mssg: "Details updated sucessfully" });
+  } catch (err) {
+    res.send({
+      status: false,
+      mssg: "Something went wrong",
+      error: err.message,
+    });
+  }
+});
+
 module.exports = {
   userRouter,
 };

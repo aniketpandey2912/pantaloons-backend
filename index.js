@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
   res.send("WELCOME PANTALOONS HOME PAGE");
 });
 
-app.use("/users", userRouter);
+app.use("/users", authenticate, userRouter);
 
 app.listen(process.env.PORT, async () => {
   try {
