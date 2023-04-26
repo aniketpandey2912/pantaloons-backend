@@ -4,7 +4,6 @@ const app = express();
 const cors = require("cors");
 const { connection } = require("./config/db");
 const { userRouter } = require("./routes/user.routes");
-const { authenticate } = require("./middlewares/auth.middleware");
 
 app.use(express.json());
 app.use(cors());
@@ -13,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("WELCOME PANTALOONS HOME PAGE");
 });
 
-app.use("/users", authenticate, userRouter);
+app.use("/users", userRouter);
 
 app.listen(process.env.PORT, async () => {
   try {

@@ -43,7 +43,7 @@ userRouter.post("/login", async (req, res) => {
         gender: users[0].gender,
         mobile: users[0].mobile,
       };
-      bcrypt.compare(password, users[0].password, async (err, result) => {
+      bcrypt.compare(password, users[0].password, (err, result) => {
         if (result) {
           let token = jwt.sign({ userID: users[0]._id }, "pantaloons");
           res.send({ status: true, mssg: "Login successfull", token, data });
