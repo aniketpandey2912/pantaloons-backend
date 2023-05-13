@@ -5,7 +5,8 @@ const cors = require("cors");
 const { connection } = require("./config/db");
 const { userRouter } = require("./routes/user.routes");
 const { productRouter } = require("./routes/products.routes");
-// const { authenticate } = require("./middlewares/auth.middleware");
+const { authenticate } = require("./middlewares/auth.middleware");
+const { cartsRouter } = require("./routes/carts.routes");
 
 app.use(express.json());
 app.use(cors());
@@ -17,6 +18,8 @@ app.get("/", (req, res) => {
 app.use("/users", userRouter);
 
 app.use("/products", productRouter);
+
+app.use("/cart", authenticate, cartsRouter);
 
 app.listen(process.env.PORT, async () => {
   try {

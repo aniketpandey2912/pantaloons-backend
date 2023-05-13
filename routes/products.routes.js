@@ -11,20 +11,20 @@ const {
 const productRouter = express.Router();
 
 // allproducts
-productRouter.get("/allproducts", async (req, res) => {
-  const query = req.body || {};
-  try {
-    let prods = await ProductModelAll.find(query);
-    console.log(prods);
-    res.send({ status: true, mssg: "Sucessful", data: prods });
-  } catch (err) {
-    res.send({
-      status: false,
-      mssg: "Something went wrong",
-      error: err.message,
-    });
-  }
-});
+// productRouter.get("/allproducts", async (req, res) => {
+//   const query = req.body || {};
+//   try {
+//     let prods = await ProductModelAll.find(query);
+//     console.log(prods);
+//     res.send({ status: true, mssg: "Sucessful", data: prods });
+//   } catch (err) {
+//     res.send({
+//       status: false,
+//       mssg: "Something went wrong",
+//       error: err.message,
+//     });
+//   }
+// });
 
 // newarrivals
 productRouter.get("/newarrivals", async (req, res) => {
