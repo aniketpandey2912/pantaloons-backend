@@ -10,15 +10,12 @@ const {
 } = require("../models/products.model");
 const productRouter = express.Router();
 
-productRouter.get("/", (req, res) => {
-  res.send("All Products");
-});
-
 // allproducts
 productRouter.get("/allproducts", async (req, res) => {
-  const query = req.body.query || {};
+  const query = req.body || {};
   try {
     let prods = await ProductModelAll.find(query);
+    console.log(prods);
     res.send({ status: true, mssg: "Sucessful", data: prods });
   } catch (err) {
     res.send({
