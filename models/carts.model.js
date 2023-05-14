@@ -26,6 +26,7 @@ const cartsSchema = mongoose.Schema(
     GenderName: String,
     MetaTitle: String,
     Color: String,
+    Quantity: Number,
     SellingPrice: Number,
     Sizes: Object,
     Active: Number,
@@ -38,8 +39,8 @@ const cartsSchema = mongoose.Schema(
   { versionKey: false }
 );
 
-const cartsModel = mongoose.model("cart", cartsSchema);
+const CartsModel = mongoose.model("cart", cartsSchema);
 
 module.exports = {
-  cartsModel,
+  CartsModel,
 };

@@ -26,6 +26,7 @@ const productsSchema = mongoose.Schema(
     GenderName: String,
     MetaTitle: String,
     Color: String,
+    Quantity: Number,
     SellingPrice: Number,
     Sizes: Object,
     Active: Number,
