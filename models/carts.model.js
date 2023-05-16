@@ -35,7 +35,7 @@ const cartsSchema = mongoose.Schema(
     PublishedDate: String,
     imageURL: String,
     productLabel: String,
-    // qty: { type: String, default: 1 },
+    qty: { type: Number, default: 1 },
   },
   { versionKey: false }
 );

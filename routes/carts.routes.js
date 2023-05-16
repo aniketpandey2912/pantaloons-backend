@@ -33,8 +33,17 @@ cartsRouter.get("/getcart", async (req, res) => {
 cartsRouter.post("/addtocart", async (req, res) => {
   const { prod, userID } = req.body || {};
   try {
-    let cart = new CartsModel({ userID, ...prod });
-    await cart.save();
+    let prodAlready = await CartsModel.find({ userID, _id: prod._id });
+
+    if (prodAlready.length) {
+      await CartsModel.findOneAndUpdate(
+        { userID, _id: prod._id },
+        { qty: prodAlready[0].qty + 1 }
+      );
+    } else {
+      let cart = new CartsModel({ userID, ...prod });
+      await cart.save();
+    }
     res.send({ status: true, mssg: "Added to cart" });
   } catch (err) {
     res.send({
