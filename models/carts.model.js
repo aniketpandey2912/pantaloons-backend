@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const cartsSchema = mongoose.Schema(
   {
+    userID: String,
     _id: String,
     clickURL: String,
     clickTrackingURL: String,
@@ -34,7 +35,7 @@ const cartsSchema = mongoose.Schema(
     PublishedDate: String,
     imageURL: String,
     productLabel: String,
-    userID: String,
+    // qty: { type: String, default: 1 },
   },
   { versionKey: false }
 );
