@@ -55,9 +55,10 @@ cartsRouter.post("/addtocart", async (req, res) => {
 });
 
 // delete cart item
-cartsRouter.delete("/deletecartitem", async (req, res) => {
-  const { userID, prodID } = req.body;
-  console.log(userID, prodID);
+cartsRouter.delete("/deletecartitem/:prodID", async (req, res) => {
+  const { userID } = req.body;
+  const { prodID } = req.params;
+  // console.log(userID, prodID);
   try {
     await CartsModel.findOneAndDelete({ userID, _id: prodID });
     res.send({ status: true, mssg: "Deleted cart item" });
