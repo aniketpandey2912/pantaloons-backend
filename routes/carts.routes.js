@@ -29,10 +29,10 @@ cartsRouter.get("/getcart", async (req, res) => {
   }
 });
 
-// add to cart
+// add to cart and increase quantity
 cartsRouter.post("/addtocart", async (req, res) => {
   const { prod, userID } = req.body || {};
-  
+
   try {
     let prodAlready = await CartsModel.find({ userID, _id: prod._id });
 
@@ -40,6 +40,35 @@ cartsRouter.post("/addtocart", async (req, res) => {
       await CartsModel.findOneAndUpdate(
         { userID, _id: prod._id },
         { qty: prodAlready[0].qty + 1 }
+      );
+    } else {
+      let cart = new CartsModel({ userID, ...prod });
+      await cart.save();
+    }
+    res.send({ status: true, mssg: "Added to cart" });
+  } catch (err) {
+    res.send({
+      status: false,
+      mssg: "Something went wrong",
+      error: err.message,
+    });
+  }
+});
+
+// decrease quantity
+cartsRouter.post("/decreaseqty", async (req, res) => {
+  const { prod, userID } = req.body || {};
+
+  try {
+    let prodAlready = await CartsModel.find({ userID, _id: prod._id });
+
+    if (prodAlready.length) {
+      if (prodAlready[0].qty <= 1) {
+        res.send({ status: false, mssg: "Insufficient items" });
+      }
+      await CartsModel.findOneAndUpdate(
+        { userID, _id: prod._id },
+        { qty: prodAlready[0].qty - 1 }
       );
     } else {
       let cart = new CartsModel({ userID, ...prod });
