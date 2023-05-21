@@ -70,11 +70,10 @@ cartsRouter.post("/decreaseqty", async (req, res) => {
         { userID, _id: prod._id },
         { qty: prodAlready[0].qty - 1 }
       );
+      res.send({ status: true, mssg: "Decreased qty of item" });
     } else {
-      let cart = new CartsModel({ userID, ...prod });
-      await cart.save();
+      res.send({ status: false, mssg: "Invalid request, Product Not Found" });
     }
-    res.send({ status: true, mssg: "Added to cart" });
   } catch (err) {
     res.send({
       status: false,
