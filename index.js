@@ -7,6 +7,7 @@ const { userRouter } = require("./routes/user.routes");
 const { productRouter } = require("./routes/products.routes");
 const { authenticate } = require("./middlewares/auth.middleware");
 const { cartsRouter } = require("./routes/carts.routes");
+const { ordersRouter } = require("./routes/orders.routes");
 
 app.use(express.json());
 app.use(cors());
@@ -20,6 +21,8 @@ app.use("/users", userRouter);
 app.use("/products", productRouter);
 
 app.use("/cart", authenticate, cartsRouter);
+
+app.use("/orders", authenticate, ordersRouter);
 
 app.listen(process.env.PORT, async () => {
   try {
