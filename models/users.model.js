@@ -15,6 +15,7 @@ const userSchema = mongoose.Schema(
     password: reqString,
     gender: String,
     mobile: Number,
+    address: [String],
   },
   {
     versionKey: false,
