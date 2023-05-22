@@ -16,7 +16,13 @@ const orderSchema = mongoose.Schema(
       default: () => new Date().toLocaleTimeString(),
       required: true,
     },
-    address: String,
+    address: {
+      house: String,
+      city: String,
+      postalAddress: String,
+      state: String,
+      country: String,
+    },
   },
   { versionKey: false }
 );

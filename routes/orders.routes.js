@@ -30,6 +30,7 @@ ordersRouter.get("/getmyorders", async (req, res) => {
   }
 });
 
+// post order details
 ordersRouter.post("/addorder", async (req, res) => {
   let payload = req.body;
   let order = new OrderModel(payload);
