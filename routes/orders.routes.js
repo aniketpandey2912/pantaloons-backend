@@ -33,9 +33,13 @@ ordersRouter.get("/getmyorders", async (req, res) => {
 // post order details
 ordersRouter.post("/addorder", async (req, res) => {
   let payload = req.body;
-  let order = new OrderModel(payload);
-  await order.save();
-  res.send({ status: true, order });
+  try {
+    let order = new OrderModel(payload);
+    await order.save();
+    res.send({ status: true, order });
+  } catch (err) {
+    res.send({ status: false, mssg: err.message });
+  }
 });
 
 module.exports = {
