@@ -104,7 +104,7 @@ cartsRouter.delete("/deletecartitem/:prodID", async (req, res) => {
 cartsRouter.delete("/deletemycart", async (req, res) => {
   const { userID } = req.body;
   try {
-    await CartsModel.findByIdAndDelete({ userID });
+    await CartsModel.deleteMany({ userID });
     res.send({ status: true, mssg: "Deleted cart after purchase" });
   } catch (err) {
     res.send({
