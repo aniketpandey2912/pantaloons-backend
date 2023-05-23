@@ -100,6 +100,21 @@ cartsRouter.delete("/deletecartitem/:prodID", async (req, res) => {
   }
 });
 
+// delete entire cart - after purchase use
+cartsRouter.delete("/deletemycart", async (req, res) => {
+  const { userID } = req.body;
+  try {
+    await CartsModel.findByIdAndDelete({ userID });
+    res.send({ status: true, mssg: "Deleted cart after purchase" });
+  } catch (err) {
+    res.send({
+      status: false,
+      mssg: "Something went wrong",
+      error: err.message,
+    });
+  }
+});
+
 module.exports = {
   cartsRouter,
 };
