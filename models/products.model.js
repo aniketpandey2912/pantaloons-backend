@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const productsSchema = mongoose.Schema(
   {
-    _id: String,
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      auto: true,
+    },
     clickURL: String,
     clickTrackingURL: String,
     id: String,

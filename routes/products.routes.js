@@ -10,21 +10,20 @@ const {
 } = require("../models/products.model");
 const productRouter = express.Router();
 
-// allproducts
-// productRouter.get("/allproducts", async (req, res) => {
-//   const query = req.body || {};
-//   try {
-//     let prods = await ProductModelAll.find(query);
-//     console.log(prods);
-//     res.send({ status: true, mssg: "Sucessful", data: prods });
-//   } catch (err) {
-//     res.send({
-//       status: false,
-//       mssg: "Something went wrong",
-//       error: err.message,
-//     });
-//   }
-// });
+// get products by id from allproducts collection
+productRouter.get("/allproducts/:prodID", async (req, res) => {
+  const { prodID } = req.params;
+  try {
+    let prod = await ProductModelAll.findOne({ _id: prodID });
+    res.send({ status: true, mssg: "Sucessful", data: prod });
+  } catch (err) {
+    res.send({
+      status: false,
+      mssg: "Something went wrong",
+      error: err.message,
+    });
+  }
+});
 
 // newarrivals
 productRouter.get("/newarrivals", async (req, res) => {
