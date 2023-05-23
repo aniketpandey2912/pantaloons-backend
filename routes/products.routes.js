@@ -14,7 +14,7 @@ const productRouter = express.Router();
 productRouter.get("/allproducts/:prodID", async (req, res) => {
   const { prodID } = req.params;
   try {
-    let prod = await ProductModelAll.findOne({ _id: prodID });
+    let prod = await ProductModelAll.findOne({ id: prodID });
     res.send({ status: true, mssg: "Sucessful", data: prod });
   } catch (err) {
     res.send({
