@@ -8,6 +8,7 @@ const { productRouter } = require("./routes/products.routes");
 const { authenticate } = require("./middlewares/auth.middleware");
 const { cartsRouter } = require("./routes/carts.routes");
 const { ordersRouter } = require("./routes/orders.routes");
+const { wishlistRouter } = require("./routes/wishlist.routes");
 
 app.use(express.json());
 app.use(cors());
@@ -21,6 +22,8 @@ app.use("/users", userRouter);
 app.use("/products", productRouter);
 
 app.use("/cart", authenticate, cartsRouter);
+
+app.use("/wishlist", authenticate, wishlistRouter);
 
 app.use("/orders", authenticate, ordersRouter);
 
