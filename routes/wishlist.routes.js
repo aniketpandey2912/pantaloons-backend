@@ -1,8 +1,9 @@
 const express = require("express");
-const { CartsModel } = require("../models/carts.model");
 const wishlistRouter = express.Router();
+const { WishlistModel } = require("../models/wishlist.model");
 
-wishlistRouter.get("/getcart", async (req, res) => {
+// get all wishlisted items
+wishlistRouter.get("/getwishlist", async (req, res) => {
   const { userID } = req.body;
   try {
     let cartItems = await WishlistModel.find({ userID });
@@ -28,8 +29,8 @@ wishlistRouter.get("/getcart", async (req, res) => {
   }
 });
 
-// add to cart and increase quantity
-wishlistRouter.post("/addtocart", async (req, res) => {
+// add to wishlist
+wishlistRouter.post("/addtowishlist", async (req, res) => {
   const { prod, userID } = req.body || {};
 
   try {
@@ -54,36 +55,8 @@ wishlistRouter.post("/addtocart", async (req, res) => {
   }
 });
 
-// decrease quantity
-wishlistRouter.post("/decreaseqty", async (req, res) => {
-  const { prod, userID } = req.body || {};
-
-  try {
-    let prodAlready = await WishlistModel.find({ userID, _id: prod._id });
-
-    if (prodAlready.length) {
-      if (prodAlready[0].qty <= 1) {
-        res.send({ status: false, mssg: "Insufficient items" });
-      }
-      await WishlistModel.findOneAndUpdate(
-        { userID, _id: prod._id },
-        { qty: prodAlready[0].qty - 1 }
-      );
-      res.send({ status: true, mssg: "Decreased qty of item" });
-    } else {
-      res.send({ status: false, mssg: "Invalid request, Product Not Found" });
-    }
-  } catch (err) {
-    res.send({
-      status: false,
-      mssg: "Something went wrong",
-      error: err.message,
-    });
-  }
-});
-
-// delete cart item
-wishlistRouter.delete("/deletecartitem/:prodID", async (req, res) => {
+// delete wishlist item
+wishlistRouter.delete("/deletewishlistitem/:prodID", async (req, res) => {
   const { userID } = req.body;
   const { prodID } = req.params;
   // console.log(userID, prodID);
@@ -99,7 +72,7 @@ wishlistRouter.delete("/deletecartitem/:prodID", async (req, res) => {
   }
 });
 
-// delete entire cart - after purchase use
+// delete entire wishlist - after purchase use
 wishlistRouter.delete("/deletemycart", async (req, res) => {
   const { userID } = req.body;
   try {
