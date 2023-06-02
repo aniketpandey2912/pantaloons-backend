@@ -59,7 +59,7 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-userRouter.patch("/edit", async (req, res) => {
+userRouter.patch("/editinfo", async (req, res) => {
   const { userID: ID, ...restUpdates } = req.body;
 
   try {

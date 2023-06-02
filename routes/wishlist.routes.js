@@ -17,7 +17,7 @@ wishlistRouter.get("/getwishlist", async (req, res) => {
     } else {
       res.send({
         status: false,
-        mssg: "Cart is empty",
+        mssg: "Wishlist is empty",
       });
     }
   } catch (err) {
@@ -37,15 +37,15 @@ wishlistRouter.post("/addtowishlist", async (req, res) => {
     let prodAlready = await WishlistModel.find({ userID, _id: prod._id });
 
     if (prodAlready.length) {
-      await WishlistModel.findOneAndUpdate(
-        { userID, _id: prod._id },
-        { qty: prodAlready[0].qty + 1 }
-      );
+      res.send({
+        status: false,
+        mssg: "Already present in your wishlist",
+      });
     } else {
       let cart = new WishlistModel({ userID, ...prod });
       await cart.save();
+      res.send({ status: true, mssg: "Added to wishlist" });
     }
-    res.send({ status: true, mssg: "Added to cart" });
   } catch (err) {
     res.send({
       status: false,
@@ -62,7 +62,7 @@ wishlistRouter.delete("/deletewishlistitem/:prodID", async (req, res) => {
   // console.log(userID, prodID);
   try {
     await WishlistModel.findOneAndDelete({ userID, _id: prodID });
-    res.send({ status: true, mssg: "Deleted cart item" });
+    res.send({ status: true, mssg: "Removed item from wishlist" });
   } catch (err) {
     res.send({
       status: false,
