@@ -3,6 +3,7 @@ const { UserModel } = require("../models/users.model");
 const userRouter = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { authenticate } = require("../middlewares/auth.middleware");
 
 userRouter.post("/signup", async (req, res) => {
   let payload = req.body;
@@ -59,12 +60,46 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-userRouter.patch("/editinfo", async (req, res) => {
+userRouter.patch("/editinfo", authenticate, async (req, res) => {
   const { userID: ID, ...restUpdates } = req.body;
 
   try {
     await UserModel.findByIdAndUpdate({ _id: ID }, restUpdates);
     res.send({ status: true, mssg: "Details updated sucessfully" });
+  } catch (err) {
+    res.send({
+      status: false,
+      mssg: "Something went wrong",
+      error: err.message,
+    });
+  }
+});
+
+userRouter.patch("/getinfo", authenticate, async (req, res) => {
+  const { userID: ID } = req.body;
+
+  try {
+    let users = await UserModel.find({ _id: ID });
+    if (users.length > 0) {
+      let updatedData = {
+        avatar: users[0].avatar,
+        first_name: users[0].first_name,
+        last_name: users[0].last_name,
+        email: users[0].email,
+        gender: users[0].gender,
+        mobile: users[0].mobile,
+      };
+      res.send({
+        status: true,
+        mssg: "Get updated user info sucessfully",
+        data: updatedData,
+      });
+    } else {
+      res.send({
+        status: false,
+        mssg: "Something went wrong",
+      });
+    }
   } catch (err) {
     res.send({
       status: false,
