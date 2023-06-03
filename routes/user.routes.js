@@ -63,7 +63,7 @@ userRouter.post("/login", async (req, res) => {
 userRouter.patch("/editinfo", authenticate, async (req, res) => {
   const { userID: ID, ...restUpdates } = req.body;
 
-  console.log(ID, restUpdates);
+  // console.log(ID, restUpdates);
 
   try {
     await UserModel.findByIdAndUpdate({ _id: ID }, restUpdates);
@@ -77,12 +77,12 @@ userRouter.patch("/editinfo", authenticate, async (req, res) => {
   }
 });
 
-userRouter.get("/getinfo", authenticate, async (req, res) => {
+userRouter.get("/getinfo", async (req, res) => {
   const { userID: ID } = req.body;
 
   try {
     let users = await UserModel.find({ _id: ID });
-    console.log(users);
+    // console.log(users);
     if (users.length > 0) {
       let updatedData = {
         avatar: users[0].avatar,
