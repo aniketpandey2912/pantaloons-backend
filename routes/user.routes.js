@@ -77,7 +77,7 @@ userRouter.patch("/editinfo", authenticate, async (req, res) => {
   }
 });
 
-userRouter.get("/getinfo", async (req, res) => {
+userRouter.get("/getinfo", authenticate, async (req, res) => {
   const { userID: ID } = req.body;
 
   try {
