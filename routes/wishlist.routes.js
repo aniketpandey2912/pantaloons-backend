@@ -73,7 +73,7 @@ wishlistRouter.delete("/deletewishlistitem/:prodID", async (req, res) => {
 });
 
 // delete entire wishlist - after purchase use
-wishlistRouter.delete("/deletemycart", async (req, res) => {
+wishlistRouter.delete("/deletemywishlist", async (req, res) => {
   const { userID } = req.body;
   try {
     await WishlistModel.deleteMany({ userID });
