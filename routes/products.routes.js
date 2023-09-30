@@ -11,18 +11,22 @@ const {
 const productRouter = express.Router();
 
 // get all matching products from allproducts collection
-productRouter.get("/allproducts/:matchString", async (req, res) => {
+productRouter.get("/allSearchedproducts/:matchString", async (req, res) => {
   const { matchString } = req.params;
-  console.log(prodID);
+
   try {
-    let products = await ProductModelAll.find({
+    let prods = await ProductModelAll.find({
       MetaKeywords: { $regex: matchString, $options: "i" },
     });
     // console.log(prod);
-    if (!products.length) {
+    if (!prods.length) {
       res.send({ status: false, mssg: "No matching products found." });
     } else {
-      res.send({ status: true, mssg: "Sucessful", data: prod });
+      res.send({
+        status: true,
+        mssg: "Sucessful",
+        data: prods,
+      });
     }
   } catch (err) {
     res.send({
