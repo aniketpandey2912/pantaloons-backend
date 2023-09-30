@@ -15,12 +15,12 @@ productRouter.get("/allproducts/:matchString", async (req, res) => {
   const { matchString } = req.params;
   console.log(prodID);
   try {
-    let prod = await ProductModelAll.findOne({
+    let products = await ProductModelAll.find({
       MetaKeywords: { $regex: matchString, $options: "i" },
     });
     // console.log(prod);
-    if (prod === null) {
-      res.send({ status: false, mssg: "Something went wrong" });
+    if (!products.length) {
+      res.send({ status: false, mssg: "No matching products found." });
     } else {
       res.send({ status: true, mssg: "Sucessful", data: prod });
     }
