@@ -10,13 +10,36 @@ const {
 } = require("../models/products.model");
 const productRouter = express.Router();
 
+// get all matching products from allproducts collection
+productRouter.get("/allproducts/:matchString", async (req, res) => {
+  const { matchString } = req.params;
+  console.log(prodID);
+  try {
+    let prod = await ProductModelAll.findOne({
+      MetaKeywords: { $regex: matchString, $options: "i" },
+    });
+    // console.log(prod);
+    if (prod === null) {
+      res.send({ status: false, mssg: "Something went wrong" });
+    } else {
+      res.send({ status: true, mssg: "Sucessful", data: prod });
+    }
+  } catch (err) {
+    res.send({
+      status: false,
+      mssg: "Something went wrong",
+      error: err.message,
+    });
+  }
+});
+
 // get products by id from allproducts collection
 productRouter.get("/allproducts/:prodID", async (req, res) => {
   const { prodID } = req.params;
   console.log(prodID);
   try {
     let prod = await ProductModelAll.findOne({ id: prodID });
-    console.log(prod);
+    // console.log(prod);
     if (prod === null) {
       res.send({ status: false, mssg: "Something went wrong" });
     } else {
